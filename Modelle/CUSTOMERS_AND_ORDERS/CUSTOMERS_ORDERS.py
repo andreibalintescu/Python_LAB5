@@ -1,7 +1,7 @@
 from Modelle.IDS.ID import Identifiable
 import functools
 class Customer(Identifiable):
-    def __init__(self,id,name,address):
+    def __init__(self, id, name, address):
         Identifiable.__init__(self,id)
         self.name = name
         self.address = address

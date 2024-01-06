@@ -1,41 +1,81 @@
-import json
-from Modelle.DISHES.FOOD_BEVERAGE import Beverage
+import ast
+import pickle
+from Modelle.DISHES.FOOD_DRINK import *
 class DataRepo:
     def __init__(self,file):
         self.file = file
 
-    def save(self,file,data):
-        with open(file,"w") as file:
-            json.dump(data,file)
+    def save(self, data):
+        with open(self.file, 'ab') as f:
+            pickle.dump(data, f)
 
-    def load(self,file):
-        with open(file,'r') as file:
-            return json.load(file)
+    def load(self):
+        with open(self.file, 'rb') as f:
+            return pickle.load(f)
 
     def read_file(self):
-        pass
-    def write_to_file(self):
-        pass
+        with open(self.file,"r") as f:
+            return f.read()
+    def write_to_file(self,data):
+        with open(self.file,"w") as file:
+            file.write(data)
     def convert_to_string(self):
         pass
     def convert_from_string(self):
         pass
 class CookedDishRepo(DataRepo):
-    def convert_to_string(self):
-        pass
-    def convert_from_string(self):
-        pass
+    def convert_to_string(self,list_of_dishes):
+        def pack_stats(dish):
+
+            stats = []
+            if type(dish) == Dish:
+                stats.append(dish.id)
+                stats.append(dish.name)
+                stats.append(dish.portion_size)
+                stats.append(dish.price)
+            else:
+                stats.append(dish.id)
+                stats.append(dish.name)
+                stats.append(dish.portion_size)
+                stats.append(dish.price)
+                stats.append(dish.cooking_time)
+            return tuple(stats)
+
+        text = list(map(pack_stats, list_of_dishes))
+        return text
+    def convert_from_string(self,stringy):
+        def unpack_stats(stats):
+            if len(stats) == 4:
+                id,name,portion_size,price = stats
+                dish = Dish(id,name,portion_size,price)
+                return dish
+            if len(stats) == 5:
+                id,name,portion_size,price,cooking_time = stats
+                cooked_dish = CookedDish(id,name,portion_size,price,cooking_time)
+                return cooked_dish
+        list_of_tuples = list(ast.literal_eval(stringy))
+        list_of_dishes = list(map(unpack_stats, list_of_tuples))
+        return list_of_dishes
 class DrinkRepo(DataRepo):
     def convert_to_string(self, list_of_drinks):
-        def json_format(object):
-            dict = json.dumps(object.__dict__)
-            return dict
+        def pack_stats(drink):
+            stats = []
+            stats.append(drink.id)
+            stats.append(drink.name)
+            stats.append(drink.portion_size)
+            stats.append(drink.price)
+            stats.append(drink.alcohol_percentage)
+            return tuple(stats)
+        text = list(map(pack_stats,list_of_drinks))
+        return text
 
-        converted = list(map(json_format, list_of_drinks))
-        return str(converted)
-    def convert_from_string(self, string):
-        list_of_str_dicts = json.loads(string)
-        list_of_drinks = [Beverage(**json.loads(item)) for item in list_of_str_dicts]
+    def convert_from_string(self, stringy):
+        def unpack_stats(stats):
+            id, name, portion_size, price, alcohol_percentage = stats
+            drink = Drink(id, name, portion_size, price, alcohol_percentage)
+            return drink
+        list_of_tuples = list(ast.literal_eval(stringy))
+        list_of_drinks = list(map(unpack_stats, list_of_tuples))
         return list_of_drinks
 
 class CustomerRepo(DataRepo):
@@ -43,6 +83,7 @@ class CustomerRepo(DataRepo):
         pass
     def convert_from_string(self):
         pass
+
 class OrderRepo(DataRepo):
     def convert_to_string(self):
         pass
