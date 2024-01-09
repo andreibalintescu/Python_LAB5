@@ -2,7 +2,7 @@ from Modelle.IDS.ID import Identifiable
 import functools
 class Customer(Identifiable):
     def __init__(self, id, name, address):
-        Identifiable.__init__(self,id)
+        Identifiable.__init__(self, id)
         self.name = name
         self.address = address
 
@@ -14,8 +14,8 @@ class Order(Identifiable):
         self.drinks_id_list = drinks_id_list
         self.total_price = total_price
 
-    def calculate_total_price(self):
-        pass
+    def calculate_total_price(self, list_of_prices):
+        self.total_price = functools.reduce(lambda a, b: a+b,list_of_prices)
     def __generate_invoice(self):
         pass
     def print_invoice(self):

@@ -1,0 +1,8 @@
+Dieser Algorithmus verwendet Listen,
+um Objekte im Speicher hinzuzufügen,
+zu löschen oder zu ändern.
+Vor jeder Datenbankoperation (außer den Anzeigemethoden für Gerichte und Kunden)
+muss die Neu laden-Taste verwendet werden.
+Dieser Prozess liest den Inhalt der als Zeichenkette repräsentierten Dateien ein,
+wandelt ihn in Listen von Objekten für jede Klasse um und lädt die Listen in die Hauptlisten der Konsole.
+Dieser Prozess gewährleistet die Datenintegrität der Anwendung.

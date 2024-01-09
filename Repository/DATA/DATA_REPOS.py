@@ -1,6 +1,7 @@
 import ast
 import pickle
 from Modelle.DISHES.FOOD_DRINK import *
+from Modelle.CUSTOMERS_AND_ORDERS.CUSTOMERS_ORDERS import Customer, Order
 class DataRepo:
     def __init__(self,file):
         self.file = file
@@ -79,13 +80,46 @@ class DrinkRepo(DataRepo):
         return list_of_drinks
 
 class CustomerRepo(DataRepo):
-    def convert_to_string(self):
-        pass
-    def convert_from_string(self):
-        pass
+    def convert_to_string(self, list_of_customers):
+        def pack_stats(customer):
+            stats = []
+            stats.append(customer.id)
+            stats.append(customer.name)
+            stats.append(customer.address)
+            return tuple(stats)
+
+        text = list(map(pack_stats, list_of_customers))
+        return text
+
+    def convert_from_string(self, stringy):
+        def unpack_stats(stats):
+            id, name, address = stats
+            customer = Customer(id, name, address)
+            return customer
+
+        list_of_tuples = list(ast.literal_eval(stringy))
+        list_of_customers = list(map(unpack_stats, list_of_tuples))
+        return list_of_customers
 
 class OrderRepo(DataRepo):
-    def convert_to_string(self):
-        pass
-    def convert_from_string(self):
-        pass
+    def convert_to_string(self, list_of_orders):
+        def pack_stats(order):
+            stats = []
+            stats.append(order.id)
+            stats.append(order.customer_id)
+            stats.append(order.dishes_id_list)
+            stats.append(order.drinks_id_list)
+            stats.append(order.total_price)
+            return tuple(stats)
+
+        text = list(map(pack_stats, list_of_orders))
+        return text
+    def convert_from_string(self, stringy):
+        def unpack_stats(stats):
+            id, customer_id, dishes_id_list, drinks_id_list, total_price = stats
+            order = Order(id,customer_id,dishes_id_list,drinks_id_list,total_price)
+            return order
+
+        list_of_tuples = list(ast.literal_eval(stringy))
+        list_of_orders = list(map(unpack_stats, list_of_tuples))
+        return list_of_orders
