@@ -16,7 +16,22 @@ class Order(Identifiable):
 
     def calculate_total_price(self, list_of_prices):
         self.total_price = functools.reduce(lambda a, b: a+b,list_of_prices)
-    def __generate_invoice(self):
-        pass
-    def print_invoice(self):
-        pass
+
+    def __generate_invoice(self, dishes, drinks):
+        invoice = ""
+        invoice = invoice + "Hier ist Ihre Bestellung:" + "\n"
+        for dish in dishes:
+            if dish.id in self.dishes_id_list:
+                invoice = invoice + f"{dish.name}..................................{dish.price}" + "\n"
+        for drink in drinks:
+            if drink.id in self.drinks_id_list:
+                invoice = invoice + f"{drink.name}.................................{drink.price}" + "\n"
+        invoice = invoice + f"Ihre Gesamtkosten für die Bestellung ist {self.total_price} Euro" + "\n"
+        invoice = invoice + "Vielen Dank und wir warten auf Sie!" + "\n"
+        return invoice
+
+    def call_generate_invoice(self, dishes, drinks):
+        return self.__generate_invoice(dishes, drinks)
+
+    def print_invoice(self, invoice):
+        print(invoice)

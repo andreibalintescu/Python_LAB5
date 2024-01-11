@@ -47,6 +47,20 @@ class RestaurantController:
     def load_customers(self):
         return self.customer_repo.load()
 
+    def search_customers(self, customers, search):
+        string = ""
+        def fun(customer):
+            if search in customer.name.lower() or search in customer.address.lower():
+                return True
+            else:
+                return False
+
+        searched_customers = list(filter(fun, customers))
+        for customer in searched_customers:
+            string = string + " " + customer.id + " " + customer.name + " " + customer.address + "\n"
+
+        return string
+
     def read_customers(self):
         return self.customer_repo.read_file()
 
@@ -64,6 +78,10 @@ class RestaurantController:
 
     def load_orders(self):
         return self.order_repo.load()
+    def find_order(self, orders, customer_id):
+        for order in orders:
+            if customer_id == order.customer_id:
+                return order
 
     def read_orders(self):
         return self.order_repo.read_file()

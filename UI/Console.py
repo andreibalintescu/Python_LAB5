@@ -228,16 +228,8 @@ class Console:
                             print(f.read())
                     if customer_value == 2:
                         search = input("Such Kunde nach Name oder Adresse:")
-                        #Sa il faci si pentru upper nu numai lower
-                        def fun(customer):
-                            if search in customer.name.lower() or search in customer.address.lower():
-                                return True
-                            else:
-                                return False
-                        searched_customers = list(filter(fun, customers))
-                        for customer in searched_customers:
-                            print(customer.id, customer.name, customer.address)
-
+                        customer_info = self.controller.search_customers(customers, search)
+                        print(customer_info)
                     if customer_value == 3:
                         id = input("Id von Kunde:")
                         name = input("Name und Vorname des Kunden:")
@@ -285,19 +277,9 @@ class Console:
                     order_value = int(input())
                     if order_value == 1:
                         id_from_customer = input("Geben Sie die ID von Kunde ein, um seine Bestellung herauszufinden:")
-                        for order in orders:
-                            if id_from_customer == order.customer_id:
-                                given_order = order
-                                break
-                        print("Hier ist Ihre Bestellung:")
-                        for dish in dishes:
-                            if dish.id in given_order.dishes_id_list:
-                                print(f"{dish.name}..................................{dish.price}")
-                        for drink in drinks:
-                            if drink.id in given_order.drinks_id_list:
-                                print(f"{drink.name}.................................{drink.price}")
-                        print(f"Ihre Gesamtkosten für die Bestellung ist {given_order.total_price} Euro")
-                        print("Vielen Dank und wir warten auf Sie!")
+                        given_order = self.controller.find_order(orders, id_from_customer)
+                        invoice = given_order.call_generate_invoice(dishes, drinks)
+                        given_order.print_invoice(invoice)
 
                     if order_value == 2:
                         id = input("Id von Bestellung:")
