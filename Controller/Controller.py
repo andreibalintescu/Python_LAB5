@@ -1,3 +1,5 @@
+#Der RestaurantController koordiniert die Interaktion zwischen den Repositories und der Benutzeroberfläche.
+
 class RestaurantController:
     def __init__(self, dish_repo, drink_repo, customer_repo, order_repo):
         self.dish_repo = dish_repo
@@ -50,7 +52,7 @@ class RestaurantController:
     def search_customers(self, customers, search):
         string = ""
         def fun(customer):
-            if search in customer.name.lower() or search in customer.address.lower():
+            if (search in customer.name.lower() or search in customer.address.lower()) or (search in customer.name.upper() or search in customer.address.upper()):
                 return True
             else:
                 return False

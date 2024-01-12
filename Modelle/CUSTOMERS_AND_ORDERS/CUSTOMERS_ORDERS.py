@@ -15,7 +15,7 @@ class Order(Identifiable):
         self.total_price = total_price
 
     def calculate_total_price(self, list_of_prices):
-        self.total_price = functools.reduce(lambda a, b: a+b,list_of_prices)
+        self.total_price = functools.reduce(lambda a, b: a+b, list_of_prices)
 
     def __generate_invoice(self, dishes, drinks):
         invoice = ""
@@ -30,8 +30,11 @@ class Order(Identifiable):
         invoice = invoice + "Vielen Dank und wir warten auf Sie!" + "\n"
         return invoice
 
-    def call_generate_invoice(self, dishes, drinks):
+    def call_generate_invoice(self, dishes, drinks): #Offentliche Methode zum Aufrufen einer privaten Methode.
         return self.__generate_invoice(dishes, drinks)
 
     def print_invoice(self, invoice):
         print(invoice)
+
+#Beide Klassen erben von Identifizierbar,
+# aber die Bestellung Klasse hat einzige Methoden für Generierung des Rechnungs und Berechnung des Gesamtkostes.

@@ -1,6 +1,6 @@
 from Modelle.DISHES.FOOD_DRINK import *
 from Modelle.CUSTOMERS_AND_ORDERS.CUSTOMERS_ORDERS import *
-
+#Benutzeroberfläche für der Anwendung.
 class Console:
     def __init__(self,controller):
         self.controller = controller
@@ -29,7 +29,7 @@ class Console:
         1 - Gericht hinzufügen
         2 - Gekochtes Gericht hinzufügen
         3 - Getränk hinzufügen
-        0 - Abbrechen
+        0 - Fertig
         """
 
     def food_change_menu(self):
@@ -37,7 +37,7 @@ class Console:
         1 - Gericht aktualisieren
         2 - Gekochtes Gericht aktualisieren
         3 - Getränk aktualisieren
-        0 - Abbrechen
+        0 - Fertig
         """
 
     def food_erase_menu(self):
@@ -45,12 +45,12 @@ class Console:
         1 - Gericht löschen
         2 - Gekochtes Gericht löschen
         3 - Getränk löschen
-        0 - Abbrechen
+        0 - Fertig
         """
 
     def customermenu(self):
         return """
-        1 - Kunde anzeigen
+        1 - Kunden anzeigen
         2 - Kunde suchen
         3 - Kunde hinzufügen
         4 - Kunde aktualisieren
@@ -83,12 +83,12 @@ class Console:
                 while True:
                     print(self.food_menu())
                     food_value = int(input())
-                    if food_value == 1:
+                    if food_value == 1:  #Dataien Inhalt lesen
                         with open('Dish_Data', 'r') as f:
                             print(f.read())
                         with open('Drink_Data', 'r') as f:
                             print(f.read())
-                    if food_value == 2:
+                    if food_value == 2: #Neue Objekte erstellen und Hinzufügen
                         while True:
                             print(self.food_add_menu())
                             add_food_value = int(input())
@@ -119,7 +119,7 @@ class Console:
                                 break
 
 
-                    if food_value == 3:
+                    if food_value == 3: #Objekte aktualisieren
                         while True:
                             print(self.food_change_menu())
                             change_food_value = int(input())
@@ -153,7 +153,7 @@ class Console:
 
 
 
-                    if food_value == 4:
+                    if food_value == 4: #Objekte löschen
                         while True:
                             print(self.food_erase_menu())
                             erase_food_value = int(input())
@@ -192,7 +192,7 @@ class Console:
                                 break
 
 
-                    if food_value == 5:
+                    if food_value == 5: #Alle speichern
                         self.controller.add_dishes(dishes)
                         list_of_dishes = self.controller.load_dishes()
                         text = self.controller.convert_string_dish(list_of_dishes)
@@ -205,7 +205,7 @@ class Console:
                         self.controller.write_drinks(str(text))
                         drinks.clear()
 
-                    if food_value == 6:
+                    if food_value == 6: #Neu laden
                         string_drinks = self.controller.read_drinks()
                         string_dishes = self.controller.read_dishes()
                         open('Dish_Data', 'w').close()
