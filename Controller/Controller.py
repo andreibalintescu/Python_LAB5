@@ -1,4 +1,4 @@
-#Der RestaurantController koordiniert die Interaktion zwischen den Repositories und der Benutzeroberfläche.
+# Der RestaurantController koordiniert die Interaktion zwischen den Repositories und der Benutzeroberfläche.
 
 class RestaurantController:
     def __init__(self, dish_repo, drink_repo, customer_repo, order_repo):
@@ -24,7 +24,8 @@ class RestaurantController:
 
     def write_drinks(self, content):
         self.drink_repo.write_to_file(content)
-#/////////////////////////////////////////////////
+
+    # /////////////////////////////////////////////////
     def add_dishes(self, dishes):
         self.dish_repo.save(dishes)
 
@@ -42,8 +43,9 @@ class RestaurantController:
 
     def write_dishes(self, content):
         self.dish_repo.write_to_file(content)
-#////////////////////////////////////////////////////////////
-    def add_customers(self,customer):
+
+    # ////////////////////////////////////////////////////////////
+    def add_customers(self, customer):
         self.customer_repo.save(customer)
 
     def load_customers(self):
@@ -51,8 +53,10 @@ class RestaurantController:
 
     def search_customers(self, customers, search):
         string = ""
+
         def fun(customer):
-            if (search in customer.name.lower() or search in customer.address.lower()) or (search in customer.name.upper() or search in customer.address.upper()):
+            if (search in customer.name.lower() or search in customer.address.lower()) or (
+                    search in customer.name.upper() or search in customer.address.upper()):
                 return True
             else:
                 return False
@@ -74,12 +78,14 @@ class RestaurantController:
 
     def write_customers(self, content):
         self.customer_repo.write_to_file(content)
-#//////////////////////////////////////////////////////////////////
-    def add_orders(self,order):
+
+    # //////////////////////////////////////////////////////////////////
+    def add_orders(self, order):
         self.order_repo.save(order)
 
     def load_orders(self):
         return self.order_repo.load()
+
     def find_order(self, orders, customer_id):
         for order in orders:
             if customer_id == order.customer_id:
@@ -96,5 +102,3 @@ class RestaurantController:
 
     def write_orders(self, content):
         self.order_repo.write_to_file(content)
-
-

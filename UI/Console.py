@@ -1,8 +1,10 @@
 from Modelle.DISHES.FOOD_DRINK import *
 from Modelle.CUSTOMERS_AND_ORDERS.CUSTOMERS_ORDERS import *
-#Benutzeroberfläche für der Anwendung.
+
+
+# Benutzeroberfläche für der Anwendung.
 class Console:
-    def __init__(self,controller):
+    def __init__(self, controller):
         self.controller = controller
 
     def main_menu(self):
@@ -69,6 +71,7 @@ class Console:
         5 - Neu laden
         0 - Abbrechen
         """
+
     def run(self):
         while True:
             print(self.main_menu())
@@ -83,12 +86,12 @@ class Console:
                 while True:
                     print(self.food_menu())
                     food_value = int(input())
-                    if food_value == 1:  #Dataien Inhalt lesen
+                    if food_value == 1:  # Dataien Inhalt lesen
                         with open('Dish_Data', 'r') as f:
                             print(f.read())
                         with open('Drink_Data', 'r') as f:
                             print(f.read())
-                    if food_value == 2: #Neue Objekte erstellen und Hinzufügen
+                    if food_value == 2:  # Neue Objekte erstellen und Hinzufügen
                         while True:
                             print(self.food_add_menu())
                             add_food_value = int(input())
@@ -118,8 +121,7 @@ class Console:
                             if add_food_value == 0:
                                 break
 
-
-                    if food_value == 3: #Objekte aktualisieren
+                    if food_value == 3:  # Objekte aktualisieren
                         while True:
                             print(self.food_change_menu())
                             change_food_value = int(input())
@@ -151,9 +153,7 @@ class Console:
                             if change_food_value == 0:
                                 break
 
-
-
-                    if food_value == 4: #Objekte löschen
+                    if food_value == 4:  # Objekte löschen
                         while True:
                             print(self.food_erase_menu())
                             erase_food_value = int(input())
@@ -165,6 +165,7 @@ class Console:
                                         return True
                                     else:
                                         return False
+
                                 dishes = list(filter(fun, dishes))
 
                             if erase_food_value == 2:
@@ -191,8 +192,7 @@ class Console:
                             if erase_food_value == 0:
                                 break
 
-
-                    if food_value == 5: #Alle speichern
+                    if food_value == 5:  # Alle speichern
                         self.controller.add_dishes(dishes)
                         list_of_dishes = self.controller.load_dishes()
                         text = self.controller.convert_string_dish(list_of_dishes)
@@ -205,7 +205,7 @@ class Console:
                         self.controller.write_drinks(str(text))
                         drinks.clear()
 
-                    if food_value == 6: #Neu laden
+                    if food_value == 6:  # Neu laden
                         string_drinks = self.controller.read_drinks()
                         string_dishes = self.controller.read_dishes()
                         open('Dish_Data', 'w').close()
@@ -290,6 +290,7 @@ class Console:
                         order = Order(id, customer_id, dishes_id_list, drinks_id_list, total_price)
                         orders.append(order)
                         list_of_ids = list(dishes_id_list.strip().split(",")) + list(drinks_id_list.strip().split(","))
+
                         def get_prices(list_of_ids):
                             prices = []
                             for drink in drinks:
@@ -299,6 +300,7 @@ class Console:
                                 if dish.id in list_of_ids:
                                     prices.append(int(dish.price))
                             return prices
+
                         list_of_prices = get_prices(list_of_ids)
                         order.calculate_total_price(list_of_prices)
                     if order_value == 3:
@@ -345,7 +347,7 @@ class Console:
                         open('Dish_Data', 'w').close()
                         open('Drink_Data', 'w').close()
                         open('Customers_Data', 'w').close()
-                        open('Orders_Data','w').close()
+                        open('Orders_Data', 'w').close()
                         if string_drinks != '':
                             list_of_drinks = self.controller.convert_from_string_drink(string_drinks)
                             drinks.extend(list_of_drinks)
@@ -361,11 +363,3 @@ class Console:
 
                     if order_value == 0:
                         break
-
-
-
-
-
-
-
-
